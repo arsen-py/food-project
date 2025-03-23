@@ -38,7 +38,7 @@ window.addEventListener("DOMContentLoaded", function(){
   // tab logic end 
 
   // timer logic start
- const deadline = "2025-05-25"
+ const deadline = "2025-06-01"
   function getTimeRemaining(endtime){
     const total = Date.parse(endtime) - Date.parse(new Date());
     const days = Math.floor(total / (1000*60*60*24));
