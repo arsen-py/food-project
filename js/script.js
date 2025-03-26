@@ -176,12 +176,70 @@ new MenuCard(
  '.menu .container',
 ).render();
 
-
-
-  
- 
  // classes for menu card - end
 
 
+
+// post request forms on server
+
+const forms = document.querySelectorAll("form");
+
+const messages = {
+  success: "success",
+  failure: "failure"
+}
+
+const {success,failure} = messages;
+
+forms.forEach(form => postData(form));
+
+function postData(form){
+
+  form.addEventListener("submit", (e)=>{
+    e.preventDefault();
+    const request = new XMLHttpRequest();
+
+    request.open("POST", "server.php");
+
+    const formData = new FormData(form);
+    request.send(formData);
+
+    request.addEventListener("load", ()=>{
+      if(request.status === 200){
+        console.log(request.response);
+        form.reset();
+        messageModal(success);
+      }else{
+        console.log("error",request.status)
+        messageModal(failure)
+      }
+    })
+
+  }) 
+
+}
+
+function messageModal(message){
+  const prevModalDialog = document.querySelector(".modal__dialog");
+  prevModalDialog.classList.add("hide");
+  openModal();
+
+  const messageModal = document.createElement("div");
+  messageModal.classList.add("modal__dialog");
+  messageModal.innerHTML = `
+  <div class="modal__content">
+  <div data-close class="modal-close"></div>
+  <div class="modal__title">${message}</div>
+
+  `
+  document.querySelector(".modal").append(messageModal);
+  setTimeout(()=>{
+    messageModal.remove();
+  prevModalDialog.classList.add("show");
+  prevModalDialog.classList.remove("hide");
+   },2000)
+}
+
+// post request forms on server
 
 });
